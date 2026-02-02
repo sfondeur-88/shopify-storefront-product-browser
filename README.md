@@ -1,97 +1,195 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Shopify Storefront Product Browser
 
-# Getting Started
+A React Native application that displays products from the Shopify Storefront API, allowing users to browse products, view details, and manage a shopping cart.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 🎯 Features
 
-## Step 1: Start Metro
+- **Product Browsing**: 2-column grid layout displaying products with images, titles, and prices
+- **Product Details**: Full product information with variant selection and availability status
+- **Shopping Cart**: Add/remove items, quantity management, and real-time total calculation
+- **Custom Navigation**: Shop app-inspired floating pill bottom tab navigation
+- **TypeScript**: Fully typed navigation, state management, and components
+- **Accessibility**: VoiceOver (iOS) and TalkBack (Android) support
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 🛠 Tech Stack
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **React Native** version `0.83.1` (without Expo)
+- **React** version `19.2.0`
+- **TypeScript**
+- **React Navigation** (Bottom Tabs + Native Stack)
+- **React Context API** (State Management)
 
-```sh
-# Using npm
+## 📋 Prerequisites
+
+- Node.js (`v16` or higher)
+- npm
+- Xcode (for iOS development)
+- Android Studio (for Android development)
+- CocoaPods (for iOS dependencies)
+
+## 🚀 Setup & Installation
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/sfondeur-88/shopify-storefront-product-browser.git
+
+cd shopify-storefront-product-browser
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Install iOS dependencies
+
+```bash
+cd ios
+pod install
+cd ..
+```
+
+### 4. Start Metro bundler
+
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
+### 5. Run on iOS
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### 6. Run on Android
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+npm run android
+```
 
-## Step 3: Modify your app
+## 📁 Project Structure
 
-Now that you have successfully run the app, let's make changes!
+```
+src/
+├── components/
+│   ├── cart/
+│   │   ├── CartItemRow.tsx
+│   │   └── QuantityStepper.tsx
+│   ├── icons/
+│   │   ├── CartIcon.tsx
+│   │   └── GridIcon.tsx
+│   └── products/
+│       └── ProductCard.tsx
+├── context/
+│   └── CartContext.tsx      # Global cart state management
+├── hooks/
+│   └── api/
+│       └── products/
+│           └── useGetProducts.ts
+├── navigation/
+│   ├── BottomTabNavigator.tsx
+│   ├── CollectionStackNavigator.tsx
+│   ├── CustomBottomTabBar.tsx
+│   ├── RootNavigator.tsx
+│   └── types.ts             # Navigation type definitions
+├── screens/
+│   ├── CartScreen.tsx
+│   ├── ProductDetailsScreen.tsx
+│   └── ProductListScreen.tsx
+└── utils/
+    ├── cart/
+    │   └── cart.ts          # Cart calculation utilities
+    └── products/
+        ├── getDefaultVariant.ts
+        └── pricing.ts
+```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 🏗 Architecture & Implementation
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### Navigation Structure
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+- **Bottom Tab Navigator**: Custom-styled floating pill design with Collection and Cart tabs
+- **Collection Stack**: Nested stack navigator for ProductList → ProductDetails flow
+- **Type Safety**: Full TypeScript typing for all routes and parameters
 
-## Congratulations! :tada:
+### State Management
 
-You've successfully run and modified your React Native App. :partying_face:
+- **React Context**: Global cart state accessible across all screens
+- **Cart Operations**: Add, remove, update quantity with duplicate prevention
+- **Pure Functions**: Cart calculations extracted into testable utility functions
 
-### Now what?
+### Data Layer
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+- **Network**: `axios` API for retrieving product JSON
+- **Error Handling**: Loading and error states for network requests
+- **Data Transformation**: Shopify API response mapped to app-specific types
+- **Custom Hooks**: `useGetProducts` hook for data fetching logic
 
-# Troubleshooting
+### UI/UX Highlights
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+- **2-Column Grid**: FlatList with optimized rendering for product lists
+- **Safe Areas**: Proper notch/safe area handling across devices
+- **Variant Selection**: Expandable section with availability indicators
+- **Shop App Design**: Matches Shopify's Shop app design patterns including accent colour (`#5433EB`) for interactive elements and bottom navigation
+- **Custom Tab Bar**: Floating pill navigation styled to match the Android Shop app aesthetic
 
-# Learn More
+## 🤖 AI-Assisted Development
 
-To learn more about React Native, take a look at the following resources:
+This project was built with assistance from AI development tools:
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+**Tools Used:**
+
+- Claude (Anthropic) - Architecture decisions and trade-offs, debugging and custom navigation implementation
+
+**How AI Helped:**
+
+- Quick prototyping of navigation structure and custom bottom tab bar component
+- Scaffolding the API's TypeScript type definitions
+- Debugging React Navigation styling conflicts
+- Best practices for configuring the custom API hook (useGetProducts.ts) as well as Jest tests
+
+**Validation Approach:**
+
+- Manual testing on both iOS and Android simulators
+- Code review of AI-generated suggestions before implementation
+- Jest unit tests for cart logic validation
+
+## 🧪 Testing
+
+Run tests with Jest:
+
+```bash
+npm test
+```
+
+**Test Coverage:**
+
+- **Cart Context Tests**: Add to cart, quantity updates, item removal, duplicate handling
+- **Cart Utility Tests**: Total price calculation, total items calculation, quantity edge cases
+
+Example test run:
+
+```bash
+npx jest __tests__/cart.test.ts
+npx jest __tests__/CartContext.test.ts
+```
+
+## ♿️ Accessibility
+
+- Screen reader support (VoiceOver/TalkBack)
+- Proper accessibility labels on custom bottom nav elements
+- Focus management for navigation flows
+
+## 📝 Notes
+
+- Product data fetched from: [Test Products JSON](<https://mock.shop/api?query={products(first:20){edges{node{id%20title%20description%20featuredImage{id%20url}%20variants(first:3){edges{node{id%20title%20availableForSale%20price{amount%20currencyCode}}}}}}}>)
+- No external component libraries used (custom implementations)
+
+## 🎨 Design Reference
+
+UI/UX inspired by the official Shopify Shop app, featuring:
+
+- Clean 2-column product grid
+- Floating pill navigation with Shop app accent colour
+- Minimal, focused product detail views

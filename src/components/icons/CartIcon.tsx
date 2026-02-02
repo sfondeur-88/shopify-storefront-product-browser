@@ -1,0 +1,40 @@
+import React from 'react';
+import { Path, Svg, SvgProps } from 'react-native-svg';
+
+interface CartIconProps extends SvgProps {
+  color?: string;
+}
+
+export const CartIcon = (props: CartIconProps) => {
+  const { width = 24, height = 24, color = '#000', ...rest } = props;
+
+  return (
+    <Svg
+      width={width}
+      height={height}
+      viewBox="0 0 24 24"
+      fill="none"
+      {...rest}
+    >
+      <Path
+        d="M19.1297 17.3512L20.7536 6.5249H5.05542L7.10589 17.3512H19.1297Z"
+        fill={color}
+      />
+      <Path
+        d="M1.0036 2.19434H4.2515L5.05542 6.5249M5.05542 6.5249L6.64343 14.9095C6.91169 16.3259 8.14946 17.3512 9.59103 17.3512H16.5461C18.0311 17.3512 19.2927 16.2648 19.5129 14.7962L20.5814 7.67323C20.672 7.06863 20.2038 6.5249 19.5924 6.5249H5.05542Z"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M7.22078 23.5556C8.10626 23.5556 8.82408 22.8378 8.82408 21.9524C8.82408 21.0669 8.10626 20.3491 7.22078 20.3491C6.33531 20.3491 5.61749 21.0669 5.61749 21.9524C5.61749 22.8378 6.33531 23.5556 7.22078 23.5556ZM17.7765 23.5556C18.662 23.5556 19.3798 22.8378 19.3798 21.9524C19.3798 21.0669 18.662 20.3491 17.7765 20.3491C16.891 20.3491 16.1732 21.0669 16.1732 21.9524C16.1732 22.8378 16.891 23.5556 17.7765 23.5556Z"
+        fill={color}
+        stroke={color}
+        strokeWidth="0.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};
