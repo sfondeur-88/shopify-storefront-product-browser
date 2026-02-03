@@ -30,6 +30,7 @@ A React Native application that displays products from the Shopify Storefront AP
 ## 🚀 Setup & Installation
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/sfondeur-88/shopify-storefront-product-browser.git
 
@@ -100,6 +101,7 @@ src/
 └── utils/
     ├── cart/
     │   └── cart.ts          # Cart calculation utilities
+    │   └── storage.ts       # Cart persistence utilities
     └── products/
         ├── getDefaultVariant.ts
         └── pricing.ts
@@ -133,6 +135,7 @@ src/
 - **Variant Selection**: Expandable section with availability indicators
 - **Shop App Design**: Matches Shopify's Shop app design patterns including accent colour (`#5433EB`) for interactive elements and bottom navigation
 - **Custom Tab Bar**: Floating pill navigation styled to match the Android Shop app aesthetic
+- **Custom Icons**: Inspired by the Android Shop app, using react-native-svg
 
 ## 🤖 AI-Assisted Development
 
@@ -183,7 +186,7 @@ npx jest __tests__/CartContext.test.ts
 
 ## 📝 Notes
 
-- Product data fetched from: [Test Products JSON](<https://mock.shop/api?query={products(first:20){edges{node{id%20title%20description%20featuredImage{id%20url}%20variants(first:3){edges{node{id%20title%20availableForSale%20price{amount%20currencyCode}}}}}}}>)
+- Product data fetched from: [Test Products JSON](https://gist.githubusercontent.com/tsopin/22b7b6b32cef24dbf3dd98ffcfb63b1a/raw/6f379a4730ceb3c625afbcb0427ca9db7f7f3b8b/testProducts.json)
 - No external component libraries used (custom implementations)
 
 ## 🎨 Design Reference
