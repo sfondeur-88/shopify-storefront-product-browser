@@ -1,9 +1,16 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import type {
   Product,
   ProductVariant,
 } from '../hooks/api/products/useGetProducts';
 import { calculateTotalItems, calculateTotalPrice } from '../utils/cart/cart';
+import { loadCartFromStorage, saveCartToStorage } from '../utils/cart/storage';
 
 export interface CartItem {
   variant: ProductVariant;
@@ -31,6 +38,24 @@ export const CartProvider = (props: CartProviderProps) => {
   const { children } = props;
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartLoaded, setIsCartLoaded] = useState(false);
+
+  // Load cart from AsyncStorage on mount.
+  useEffect(() => {
+    const initializeCart = async () => {
+      const savedCart = await loadCartFromStorage();
+      setCartItems(savedCart);
+      setIsCartLoaded(true);
+    };
+
+    initializeCart();
+  }, []);
+
+  // Save cart to AsyncStorage whenever it updates.
+  useEffect(() => {
+    if (!isCartLoaded) return;
+    saveCartToStorage(cartItems);
+  }, [cartItems, isCartLoaded]);
 
   const addToCart = (product: Product, variantToAdd: ProductVariant) => {
     setCartItems((prev) => {
@@ -38,7 +63,6 @@ export const CartProvider = (props: CartProviderProps) => {
         (item) => item.variant.id === variantToAdd.id,
       );
 
-      // If the variant is already in the cart, we increment quantity.
       if (existingItemIndex >= 0) {
         return prev.map((item, index) =>
           index === existingItemIndex
@@ -47,7 +71,6 @@ export const CartProvider = (props: CartProviderProps) => {
         );
       }
 
-      // New variant, just add to cart.
       return [
         ...prev,
         {
@@ -84,9 +107,6 @@ export const CartProvider = (props: CartProviderProps) => {
   const totalPrice = calculateTotalPrice(cartItems);
   const totalItems = calculateTotalItems(cartItems);
 
-  // Note:
-  // Normally this would come from user locale, App prefs, AuthContext or some other setting.
-  // Just wanted to prevent hard-coding the currency within the CartScreen.
   const currencyCode = cartItems[0]?.variant.price.currencyCode ?? 'CAD';
 
   const value: CartContextValues = {

@@ -43,9 +43,10 @@ export const CartItemRow = (props: CartItemRowProps) => {
             accessibilityLabel={`Remove ${item.productTitle} from cart`}
             accessibilityHint="Tap to remove this item"
             onPress={onRemove}
+            style={styles.removeButton}
             activeOpacity={0.7}
           >
-            <Text style={styles.removeButton}>Remove</Text>
+            <Text style={styles.removeButtonText}>Remove</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -92,8 +93,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   removeButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#FF3B30',
+  },
+  removeButtonText: {
     fontSize: 13,
     color: '#FF3B30',
-    fontWeight: '500',
+    fontWeight: '600',
   },
 });
